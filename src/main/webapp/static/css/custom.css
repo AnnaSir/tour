@@ -1,0 +1,105 @@
+.loginSubmit {
+    text-align: center;
+}
+
+.enterButton {
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.badge {
+    cursor: pointer;
+}
+
+.adder {
+    vertical-align: bottom;
+}
+
+.adder2 {
+    width: 10px;
+    height: 10px;
+}
+
+.header {
+    background-color: #ecec52;
+    margin-bottom: 20px;
+}
+
+.body .table-bordered, .body .table-bordered th, .body .table-bordered td {
+    border: 3px ridge #dddddd;
+    background-color: white;
+}
+
+.body .table-bordered td {
+    vertical-align: middle;
+    padding: 0;
+}
+
+.table-bordered .list-group-item {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-top-width: 2px;
+}
+
+
+
+.table-bordered .list-group-item2 {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+}
+
+.table-bordered .list-group2 {
+    margin-bottom: 0;
+}
+
+
+
+.table-bordered .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.table-bordered .list-group {
+    margin-bottom: 0;
+}
+
+.table-bordered th {
+    text-align: center;
+}
+
+.descriptionTable li textarea {
+    resize: none;
+    width: 250px;
+    height: 150px;
+}
+
+.triggerMapperRow .description {
+    width: 250px;
+}
+
+.form-control {
+    width: 150px;
+}
+
+label {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+textarea#descriptionId {
+    height: 100px;
+    resize: none;
+}
+
+textarea#initialsId {
+    height: 100px;
+    resize: none;
+}
+
+#addEvent {
+    border-right: 1px solid #ccc;
+}
