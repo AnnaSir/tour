@@ -34,15 +34,15 @@
     <tr>
         <th>
             <div id="headerId" class="dropdown">
-                <button class = "ddButton" type="button" data-toggle="dropdown" data-atr="ddHead" data-atr1="id">
+                <button class = "ddButton" type="button" data-toggle="dropdown" data-columnName="id">
                     ID
                 </button>
                 <div class="dropdown-menu"></div>
             </div>
         </th>
         <th data-sortable="true">
-            <div  id="headerName" class="dropdown" data-atr="ddHead" data-atr1="name">
-                <button class = "ddButton" type="button" data-toggle="dropdown" data-atr="ddHead" data-atr1="name">
+            <div  id="headerName" class="dropdown" data-columnName="name">
+                <button class = "ddButton" type="button" data-toggle="dropdown" data-columnName="name">
                     Название тура
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -50,8 +50,8 @@
             </div>
         </th>
         <th>
-            <div id="headerDesc" class="dropdown" data-atr="ddHead" data-atr1="desc">
-                <button class = "ddButton" type="button" data-toggle="dropdown" data-atr="ddHead" data-atr1="desc">
+            <div id="headerDesc" class="dropdown" data-columnName="desc">
+                <button class = "ddButton" type="button" data-toggle="dropdown" data-columnName="desc">
                     Описание
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -61,9 +61,9 @@
     </tr>
     <c:forEach var="tour" items="${tours}">
         <tr>
-            <td data-atr=ddBody data-atr1="id" data-atr2="${tour.tourId}">${tour.tourId}</td>
-            <td data-atr=ddBody data-atr1="name" data-atr2="${tour.name}">${tour.name}</td>
-            <td data-atr=ddBody data-atr1="desc" data-atr2="${tour.description}">${tour.description}</td>
+            <td data-columnName="id" data-value="${tour.tourId}">${tour.tourId}</td>
+            <td data-columnName="name" data-value="${tour.name}">${tour.name}</td>
+            <td data-columnName="desc" data-value="${tour.description}">${tour.description}</td>
         </tr>
     </c:forEach>
 </table>
@@ -73,7 +73,7 @@
     <div class="list-group-item">
             <%--<input type="checkbox">Выделить все<br>--%>
             {{#data}}
-            <input type="checkbox" checked="checked" data-atr1="{{column}}" data-atr2="{{.}}">{{.}}<br>
+            <input type="checkbox" checked="checked" data-columnName="{{column}}" data-value="{{.}}">{{.}}<br>
             {{/data}}
     </div>
     <button type = "button" class = "okButton">ok</button>
@@ -82,7 +82,7 @@
 <script type="text/template" id="ddPattern2">
         <%--<input type="checkbox">Выделить все<br>--%>
         {{#data}}
-        <input type="checkbox" data-atr1="{{column}}" data-atr2="{{.}}">{{.}}<br>
+        <input type="checkbox" data-columnName="{{column}}" data-value="{{.}}">{{.}}<br>
         {{/data}}
 </script>
 
