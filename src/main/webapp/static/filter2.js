@@ -8,21 +8,19 @@ var prevFilters = [];
 
 var Filter = {
 
+        createDD: function () {
 
-    createDD: function () {
+            var content = this;
+            var currHead = $(content).attr('data-columnName');
 
-        var content = this;
-        var currHead = $(content).attr('data-columnName');
+            var finList = [];
+            var menu = $(content).siblings(".dropdown-menu");
 
-        var finList = [];
-        var menu = $(content).siblings(".dropdown-menu");
 
-        if (currHead === prevFilters[prevFilters.length - 1]) {
-
-            var currObj = prevDD[currHead];
-            finList = Object.keys(currObj);
-
-        } else {
+            if (currHead === prevFilters[prevFilters.length - 1]) {
+                Filter.getOldValues(currHead, menu);
+                return;
+            }
 
             var listForDD = $("#tourTable").find('td[data-columnName =' + currHead + ']');
             listForDD.each(function () {
@@ -31,74 +29,81 @@ var Filter = {
                 if (finList.indexOf(cellValue) >= 0 || (!row.is(':visible'))) return;
                 finList.push(cellValue);
             });
-        }
 
-        var dDHtml = Mustache.to_html($("#ddPattern").html(), {data: finList, column: currHead});
+            var dDHtml = Mustache.to_html($("#ddPattern").html(), {data: finList, column: currHead});
+            menu.html(dDHtml);
 
-        menu.html(dDHtml);
+        },
 
-        if (currHead === prevFilters[prevFilters.length - 1]) {
-            menu.find("input").each(
+        getOldValues: function (currHead, menu) {
+
+            var currObj = prevDD[currHead];
+            var finList = Object.keys(currObj);
+
+            var dDHtml = Mustache.to_html($("#ddPattern").html(), {data: finList, column: currHead});
+
+            $(menu).html(dDHtml);
+            $(menu).find("input").each(
                 function () {
                     if (currObj[$(this).attr("data-value")] === false)
                         $(this).prop('checked', false);
                 }
             )
-        }
 
-    },
+        },
 
-    checkAllValues: function () {
-        var content = this;
-        $(content).siblings('input').each(
+        checkAllValues:
+
             function () {
-                $(this).prop('checked', $(content).prop('checked'));
+                var content = this;
+                $(content).siblings('input').each(
+                    function () {
+                        $(this).prop('checked', $(content).prop('checked'));
+                    }
+                )
+
+            },
+
+        getFilterResult: function () {
+
+            var content = this;
+            var menu = $(content).closest(".dropdown-menu");
+            var columnName = menu.parent().find('button').attr('data-columnName');
+            var allInputs = menu.find("input.checker");
+            var ckeckedInputs = menu.find("input.checker:checked");
+            var isAllChecked = allInputs.length === ckeckedInputs.length;
+
+            if (prevFilters.indexOf(columnName) === -1) {
+                prevFilters.push(columnName);
             }
-        )
+            var columnProp = {};
 
-    },
+            allInputs.each(
+                function () {
+                    if (!isAllChecked) {
+                        columnProp[$(this).attr('data-value')] = $(this).prop('checked');
+                    }
 
-
-    getFilterResult: function () {
-
-        var content = this;
-        var menu = $(content).closest(".dropdown-menu");
-        var columnName = menu.parent().find('button').attr('data-columnName');
-        var allInputs = menu.find("input.checker");
-        var ckeckedInputs = menu.find("input.checker:checked");
-        var isAllChecked = allInputs.length === ckeckedInputs.length;
-
-        if (prevFilters.indexOf(columnName) === -1) {
-            prevFilters.push(columnName);
-        }
-        var columnProp = {};
-
-        allInputs.each(
-            function () {
-                if (!isAllChecked) {
-                    columnProp[$(this).attr('data-value')] = $(this).prop('checked');
+                    var cell = $("#tourTable").find("td[data-columnName=" + $(this).attr("data-columnName") + "][data-value=" + $(this).attr("data-value") + "]");
+                    var row = $(cell).parent();
+                    if ($(this).prop('checked')) {
+                        row.show();
+                    }
+                    if (!$(this).prop('checked')) {
+                        row.hide();
+                    }
                 }
+            );
 
-                var cell = $("#tourTable").find("td[data-columnName=" + $(this).attr("data-columnName") + "][data-value=" + $(this).attr("data-value") + "]");
-                var row = $(cell).parent();
-                if ($(this).prop('checked')) {
-                    row.show();
-                }
-                if (!$(this).prop('checked')) {
-                    row.hide();
-                }
+            if (isAllChecked) { //если нет пустых checkbox
+                var a = prevFilters.splice(-1, 1);
+                menu.parent().find('button').css("text-decoration", "none");
+                return;
             }
-        );
 
+            prevDD[columnName] = columnProp;
+            menu.parent().find('button').css("text-decoration", "underline");
 
-        if (isAllChecked) { //если нет пустых checkbox
-            var a = prevFilters.splice(-1, 1);
-            menu.parent().find('button').css("text-decoration", "none");
-            return;
         }
-
-        prevDD[columnName] = columnProp;
-        menu.parent().find('button').css("text-decoration", "underline");
-
     }
-};
+;
