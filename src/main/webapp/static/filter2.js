@@ -4,7 +4,6 @@ var prevDD = {
     desc: 'anyproperty'
 
 };
-var currFilter;
 var prevFilters = [];
 
 var Filter = {
@@ -14,7 +13,6 @@ var Filter = {
 
         var content = this;
         var currHead = $(content).attr('data-columnName');
-        if (currHead === currFilter) return; //если был применен фильтр, то не изменяем содержимое окна
 
         var finList = [];
         var menu = $(content).siblings(".dropdown-menu");
@@ -50,19 +48,28 @@ var Filter = {
 
     },
 
+    checkAllValues: function () {
+        var content = this;
+        $(content).siblings('input').each(
+            function () {
+                $(this).prop('checked', $(content).prop('checked'));
+            }
+        )
+
+    },
+
 
     getFilterResult: function () {
 
         var content = this;
         var menu = $(content).closest(".dropdown-menu");
         var columnName = menu.parent().find('button').attr('data-columnName');
-        var allInputs = menu.find("input");
-        var ckeckedInputs = menu.find("input:checked");
+        var allInputs = menu.find("input.checker");
+        var ckeckedInputs = menu.find("input.checker:checked");
         var isAllChecked = allInputs.length === ckeckedInputs.length;
 
-        currFilter = columnName;
-        if (prevFilters.indexOf(currFilter) === -1) {
-            prevFilters.push(currFilter);
+        if (prevFilters.indexOf(columnName) === -1) {
+            prevFilters.push(columnName);
         }
         var columnProp = {};
 
@@ -72,8 +79,6 @@ var Filter = {
                     columnProp[$(this).attr('data-value')] = $(this).prop('checked');
                 }
 
-                currFilter = $(this).attr('data-columnName');
-
                 var cell = $("#tourTable").find("td[data-columnName=" + $(this).attr("data-columnName") + "][data-value=" + $(this).attr("data-value") + "]");
                 var row = $(cell).parent();
                 if ($(this).prop('checked')) {
@@ -82,7 +87,6 @@ var Filter = {
                 if (!$(this).prop('checked')) {
                     row.hide();
                 }
-
             }
         );
 
@@ -95,7 +99,6 @@ var Filter = {
 
         prevDD[columnName] = columnProp;
         menu.parent().find('button').css("text-decoration", "underline");
-
 
     }
 };

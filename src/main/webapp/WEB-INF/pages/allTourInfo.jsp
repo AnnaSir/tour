@@ -71,20 +71,14 @@
 
 <script type="text/template" id="ddPattern">
     <div class="list-group-item">
-            <%--<input type="checkbox">Выделить все<br>--%>
+            <input id = "allSelector" type="checkbox" checked="checked">Выделить все<br>
             {{#data}}
-            <input type="checkbox" checked="checked" data-columnName="{{column}}" data-value="{{.}}">{{.}}<br>
+            <input class = "checker" type="checkbox" checked="checked" data-columnName="{{column}}" data-value="{{.}}">{{.}}<br>
             {{/data}}
     </div>
     <button type = "button" class = "okButton">ok</button>
 </script>
 
-<script type="text/template" id="ddPattern2">
-        <%--<input type="checkbox">Выделить все<br>--%>
-        {{#data}}
-        <input type="checkbox" data-columnName="{{column}}" data-value="{{.}}">{{.}}<br>
-        {{/data}}
-</script>
 
 <script type="text/javascript">
 
@@ -93,6 +87,9 @@
     $(".ddButton").on("click", Filter.createDD);
     //$(".okButton").on("click" , Filter.getFilterResult);
     $(document).on('click', ".okButton", Filter.getFilterResult);
+    $(document).on('click', "#allSelector", Filter.checkAllValues);
+   // $(document).on('click', ".checker", Filter.checkAllValues);
+
     //$(document).on('click', "input", Filter.getFilterResult);
 
 
